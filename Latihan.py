@@ -83,13 +83,13 @@ class Main(tk.Frame):
         self.radiobutton = tk.Radiobutton(self.MainFrame2, text="Hue", variable=var, value=0, background="lightblue", command=self.selchue)
         self.radiobutton.grid(row=5, column=1, padx=10)
         
-        self.radiobutton1 = tk.Radiobutton(self.MainFrame2, text="Saturation", variable=var, value=2, background="lightblue")
+        self.radiobutton1 = tk.Radiobutton(self.MainFrame2, text="Saturation", variable=var, value=2, background="lightblue", command=self.selcstr)
         self.radiobutton1.grid(row=5, column=2, padx=10)
         
-        self.radiobutton2 = tk.Radiobutton(self.MainFrame2, text="Value", variable=var, value=3, background="lightblue")
+        self.radiobutton2 = tk.Radiobutton(self.MainFrame2, text="Value", variable=var, value=3, background="lightblue", command=self.selcvle)
         self.radiobutton2.grid(row=5, column=3, padx=10)
         
-        self.radiobutton3 = tk.Radiobutton(self.MainFrame2, text="HSV Colour", variable=var, value=4, background="lightblue")
+        self.radiobutton3 = tk.Radiobutton(self.MainFrame2, text="HSV Colour", variable=var, value=4, background="lightblue", command=self.selchsv)
         self.radiobutton3.grid(row=5, column=4, padx=10)       
         
 #frame 3
@@ -114,7 +114,7 @@ class Main(tk.Frame):
         self.CitraHist = tk.Label( self.MainFrame3, bg="blue", image=self.noimageHist)
         self.CitraHist.grid(row=2, column=1, padx=3, pady=3)
         
-        self.lblhist = tk.Label(self.MainFrame3, text="Image Brightness", font="Georgia", background="lightblue")
+        self.lblhist = tk.Label(self.MainFrame3, text="Image Histogram EQ", font="Georgia", background="lightblue")
         self.lblhist.grid(row=0, column=1, padx=30, pady=0)
         
 #frame 4
@@ -129,51 +129,50 @@ class Main(tk.Frame):
         self.path.grid(row=5, column=3, padx=5)
         
 #frame 5
-        #output
-#
-#        #label hasil hue
-#        self.asli ='noimage2.png'
-#        self.huenoimage = Image.open(self.asli)
-#        self.huenoimage = self.huenoimage.resize((120, 150), Image.ANTIALIAS)
-#        self.huenoimage = ImageTk.PhotoImage(self.huenoimage)
-#        self.Citrahue = tk.Label(self.MainFrame5, bg="blue", image=self.huenoimage)
-#        self.Citrahue.grid(row=1, column=0, padx=5, pady=0,)
-#        
-#        self.lblhue = tk.Label(self.MainFrame5, text="Hue", font="Georgia", background="lightblue")
-#        self.lblhue.grid(row=0, column=0)
-#        
-#        #label hasil saturation
-#        self.asli ='noimage2.png'
-#        self.stnoimage = Image.open(self.asli)
-#        self.stnoimage = self.stnoimage.resize((120, 150), Image.ANTIALIAS)
-#        self.stnoimage = ImageTk.PhotoImage(self.stnoimage)
-#        self.Citrast = tk.Label(self.MainFrame5, bg="blue", image=self.stnoimage)
-#        self.Citrast.grid(row=1, column=1, padx=5, pady=0,)
-#        
-#        self.lblst = tk.Label(self.MainFrame5, text="Saturation", font="Georgia", background="lightblue")
-#        self.lblst.grid(row=0, column=1)
-#        
-#        #image hasil Value
-#        self.asli ='noimage2.png'
-#        self.vlunoimage = Image.open(self.asli)
-#        self.vlunoimage = self.vlunoimage.resize((120, 150), Image.ANTIALIAS)
-#        self.vlunoimage = ImageTk.PhotoImage(self.vlunoimage)
-#        self.Citravlu = tk.Label(self.MainFrame5, bg="blue", image=self.vlunoimage)
-#        self.Citravlu.grid(row=1, column=2, padx=5, pady=0,)
-#        
-#        self.lblvlu = tk.Label(self.MainFrame5, text="Value", font="Georgia", background="lightblue")
-#        self.lblvlu.grid(row=0, column=2)
-#        
-#        #label HSV
-#        self.asli ='noimage2.png'
-#        self.hsvnoimage = Image.open(self.asli)
-#        self.hsvnoimage = self.hsvnoimage.resize((120, 150), Image.ANTIALIAS)
-#        self.hsvnoimage = ImageTk.PhotoImage(self.hsvnoimage)
-#        self.Citravhsv = tk.Label(self.MainFrame5, bg="blue", image=self.hsvnoimage)
-#        self.Citravhsv.grid(row=1, column=3, padx=5, pady=0,)
-#        
-#        self.lblhsv = tk.Label(self.MainFrame5, text="HSV Colour", font="Georgia", background="lightblue")
-#        self.lblhsv.grid(row=0, column=3)
+#        output
+#        label hasil hue
+        self.asli ='noimage2.png'
+        self.huenoimage = Image.open(self.asli)
+        self.huenoimage = self.huenoimage.resize((120, 150), Image.ANTIALIAS)
+        self.huenoimage = ImageTk.PhotoImage(self.huenoimage)
+        self.Citrahue = tk.Label(self.MainFrame5, bg="blue", image=self.huenoimage)
+        self.Citrahue.grid(row=1, column=0, padx=5, pady=0,)
+        
+        self.lblhue = tk.Label(self.MainFrame5, text="Hue", font="Georgia", background="lightblue")
+        self.lblhue.grid(row=0, column=0)
+        
+        #label hasil saturation
+        self.asli ='noimage2.png'
+        self.stnoimage = Image.open(self.asli)
+        self.stnoimage = self.stnoimage.resize((120, 150), Image.ANTIALIAS)
+        self.stnoimage = ImageTk.PhotoImage(self.stnoimage)
+        self.Citrast = tk.Label(self.MainFrame5, bg="blue", image=self.stnoimage)
+        self.Citrast.grid(row=1, column=1, padx=5, pady=0,)
+        
+        self.lblst = tk.Label(self.MainFrame5, text="Saturation", font="Georgia", background="lightblue")
+        self.lblst.grid(row=0, column=1)
+        
+        #image hasil Value
+        self.asli ='noimage2.png'
+        self.vlunoimage = Image.open(self.asli)
+        self.vlunoimage = self.vlunoimage.resize((120, 150), Image.ANTIALIAS)
+        self.vlunoimage = ImageTk.PhotoImage(self.vlunoimage)
+        self.Citravlu = tk.Label(self.MainFrame5, bg="blue", image=self.vlunoimage)
+        self.Citravlu.grid(row=1, column=2, padx=5, pady=0,)
+        
+        self.lblvlu = tk.Label(self.MainFrame5, text="Value", font="Georgia", background="lightblue")
+        self.lblvlu.grid(row=0, column=2)
+        
+        #label HSV
+        self.asli ='noimage2.png'
+        self.hsvnoimage = Image.open(self.asli)
+        self.hsvnoimage = self.hsvnoimage.resize((120, 150), Image.ANTIALIAS)
+        self.hsvnoimage = ImageTk.PhotoImage(self.hsvnoimage)
+        self.Citravhsv = tk.Label(self.MainFrame5, bg="blue", image=self.hsvnoimage)
+        self.Citravhsv.grid(row=1, column=3, padx=5, pady=0,)
+        
+        self.lblhsv = tk.Label(self.MainFrame5, text="HSV Colour", font="Georgia", background="lightblue")
+        self.lblhsv.grid(row=0, column=3)
 
         #label hasil output
         self.asli ='noimage3.png'
@@ -220,10 +219,12 @@ class Main(tk.Frame):
         a = p.ImageProses()
         pathImgTrain = self.textboxdatatraining.get()
         
-        folder_imgTrain = a.prapengolahan(pathImgTrain)                 
+        folder_imgTrain = a.getImgTrain(pathImgTrain)                 
         kumpulan_gbr = a.loadImgTrain(folder_imgTrain)
+        hasilPraOlah = a.prapengolahan(folder_imgTrain)
+      
         
-        print(kumpulan_gbr)
+        print(hasilPraOlah)
           
 #==============================================================================
                             # BLOK TESTING
@@ -232,7 +233,7 @@ class Main(tk.Frame):
     def testing(self):
         a = p.ImageProses()
         pathImgTesting = self.textboxdatatesting.get()
-        gambartesting = a.loadImgTest(pathImgTesting)
+#        gambartesting = a.loadImgTest(pathImgTesting)
         
 #tampil gambar
         imgpilih = Image.open(self.textboxdatatesting.get())
@@ -240,21 +241,28 @@ class Main(tk.Frame):
         imgpilih = ImageTk.PhotoImage(imgpilih)
         self.CitraAsli.configure(image=imgpilih)
         self.CitraAsli.image=imgpilih
-                
+        
+#tampil gambar Histogram                
         gambarhist = a.ImgHeist(pathImgTesting)
         
         imgHist = Image.fromarray(gambarhist)
         imgHist = imgHist.resize((170, 227),  Image.ANTIALIAS)
         imgHist = ImageTk.PhotoImage(imgHist)
-#        cv2.imshow("HIstogram",imgHist)
         self.CitraHist.configure(image=imgHist)
         self.CitraHist.image=imgHist
+        
+        gambarskin = a.skintesting(pathImgTesting)
+
+        imgSkin = Image.fromarray(gambarskin)
+        imgSkin = imgSkin.resize((236, 270),  Image.ANTIALIAS)
+        imgSkin = ImageTk.PhotoImage(imgSkin)
+        self.Citravhslout.configure(image=imgSkin)
+        self.Citravhslout.image=imgSkin
         
     def selchue(self):
         a = p.ImageProses()
         pathImgTesting = self.textboxdatatesting.get()
-#        gambarhue = a.loadImgTest(pathImgTesting)  
-        
+       
         gambarhue = a.pilihhue(pathImgTesting)
         
         imghue = Image.fromarray(gambarhue)
@@ -262,7 +270,46 @@ class Main(tk.Frame):
         imghue = ImageTk.PhotoImage(imghue)
         self.Citrahue.configure(image=imghue)
         self.Citrahue.image=imghue
-        cv2.imshow("hue",gambarhue)
+#        cv2.imshow("hue",gambarhue)
+        
+    def selcstr(self):
+        a = p.ImageProses()
+        pathImgTesting = self.textboxdatatesting.get()
+       
+        gambarstr = a.pilihstr(pathImgTesting)
+        
+        imgstr = Image.fromarray(gambarstr)
+        imgstr = imgstr.resize((120, 150),  Image.ANTIALIAS)
+        imgstr = ImageTk.PhotoImage(imgstr)
+        self.Citrast.configure(image=imgstr)
+        self.Citrast.image=imgstr
+#        cv2.imshow("hue",gambarhue)
+        
+    def selcvle(self):
+        a = p.ImageProses()
+        pathImgTesting = self.textboxdatatesting.get()
+       
+        gambarvle = a.pilihvle(pathImgTesting)
+        
+        imgvle = Image.fromarray(gambarvle)
+        imgvle = imgvle.resize((120, 150),  Image.ANTIALIAS)
+        imgvle = ImageTk.PhotoImage(imgvle)
+        self.Citravlu.configure(image=imgvle)
+        self.Citravlu.image=imgvle
+#        cv2.imshow("hue",imgvle)
+        
+    def selchsv(self):
+        a = p.ImageProses()
+        pathImgTesting = self.textboxdatatesting.get()
+       
+        gambarhsv = a.pilihhsv(pathImgTesting)
+        
+        imghsv = Image.fromarray(gambarhsv)
+        imghsv = imghsv.resize((120, 150),  Image.ANTIALIAS)
+        imghsv = ImageTk.PhotoImage(imghsv)
+        self.Citravhsv.configure(image=imghsv)
+        self.Citravhsv.image=imghsv
+#        cv2.imshow("hue",imgvle)
             
         
     
