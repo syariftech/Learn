@@ -1,4 +1,5 @@
 import cv2
+
 import tkinter as tk
 from tkinter import filedialog
 from PIL import ImageTk, Image
@@ -32,7 +33,7 @@ class Main(tk.Frame):
         self.MainFrame4.grid_propagate(0)
 #output
         self.MainFrame5 = tk.LabelFrame(self.parent, background="lightblue", text="Output", font="Arial 14", fg="black")
-        self.MainFrame5.grid(row=2, column=1, rowspan=4, columnspan=2, padx=0, sticky="NSEW")
+        self.MainFrame5.grid(row=2, column=1, rowspan=3, columnspan=4, padx=0, sticky="NSEW")
         self.MainFrame5.grid_propagate(0)
 #footer
         self.MainFrame6 = tk.LabelFrame(self.parent, height=50, width=1000, text="Made By : ", background="lightgray")
@@ -83,13 +84,13 @@ class Main(tk.Frame):
         self.radiobutton = tk.Radiobutton(self.MainFrame2, text="Hue", variable=var, value=0, background="lightblue", command=self.selchue)
         self.radiobutton.grid(row=5, column=1, padx=10)
         
-        self.radiobutton1 = tk.Radiobutton(self.MainFrame2, text="Saturation", variable=var, value=2, background="lightblue", command=self.selcstr)
+        self.radiobutton1 = tk.Radiobutton(self.MainFrame2, text="Saturation", variable=var, value=1, background="lightblue", command=self.selcstr)
         self.radiobutton1.grid(row=5, column=2, padx=10)
         
-        self.radiobutton2 = tk.Radiobutton(self.MainFrame2, text="Value", variable=var, value=3, background="lightblue", command=self.selcvle)
+        self.radiobutton2 = tk.Radiobutton(self.MainFrame2, text="Value", variable=var, value=2, background="lightblue", command=self.selcvle)
         self.radiobutton2.grid(row=5, column=3, padx=10)
         
-        self.radiobutton3 = tk.Radiobutton(self.MainFrame2, text="HSV Colour", variable=var, value=4, background="lightblue", command=self.selchsv)
+        self.radiobutton3 = tk.Radiobutton(self.MainFrame2, text="HSV Colour", variable=var, value=3, background="lightblue", command=self.selchsv)
         self.radiobutton3.grid(row=5, column=4, padx=10)       
         
 #frame 3
@@ -123,7 +124,7 @@ class Main(tk.Frame):
         self.path.grid(row=5, column=0, padx=5)
         self.path = tk.Button(self.MainFrame4, command =self.testing,text="Testing", font="arial 12 bold", width=8, height = 2, background="lightblue")
         self.path.grid(row=5, column=1, padx=5)
-        self.path = tk.Button(self.MainFrame4, command =self.testing,text="Refresh", font="arial 12 bold", width=8, height = 2, background="lightblue")
+        self.path = tk.Button(self.MainFrame4, command =self.clearform,text="Refresh", font="arial 12 bold", width=8, height = 2, background="lightblue")
         self.path.grid(row=5, column=2, padx=5)
         self.path = tk.Button(self.MainFrame4, command = self.close_window,text="Exit", font="arial 12 bold", width=7, height = 2, background="lightblue", foreground="red")
         self.path.grid(row=5, column=3, padx=5)
@@ -189,19 +190,19 @@ class Main(tk.Frame):
         self.label11 = tk.Label(self.MainFrame5, text="Size (Pixel) :",font="arial 14 bold", background="lightblue", width=0,height=0)
         self.label11.grid(row=6, column=0)
         
-        self.label11 = tk.Label(self.MainFrame5, text="77777",font="arial 20 bold", background="lightblue", width=0,height=0)
-        self.label11.grid(row=6, column=1)
+        self.labelsizepixel = tk.Label(self.MainFrame5, text="0",font="arial 20 bold", background="lightblue", width=0,height=0)
+        self.labelsizepixel.grid(row=6, column=1)
         
         #label keterangan hasil output
-        self.label11 = tk.Label(self.MainFrame5, text="% Skin Detec :",font="arial 14 bold", background="lightblue", width=0,height=0)
+        self.label11 = tk.Label(self.MainFrame5, text="Skin Detec :",font="arial 14 bold", background="lightblue", width=0,height=0)
         self.label11.grid(row=6, column=2)
         
-        self.label11 = tk.Label(self.MainFrame5, text="70 %",font="arial 20 bold", background="lightblue", width=0,height=0)
-        self.label11.grid(row=6, column=3)
+        self.labelpersent = tk.Label(self.MainFrame5, text="0 %",font="arial 20 bold", background="lightblue", width=0,height=0)
+        self.labelpersent.grid(row=6, column=3)
         
         #label keterangan hasil output
-        self.label11 = tk.Label(self.MainFrame5, text="Bukan PornoGrapic",font="arial 18 bold", bg="lightblue", fg="red", width=0,height=0)
-        self.label11.grid(row=6, column=4)
+        self.labelklasifikasi = tk.Label(self.MainFrame5, text="Bukan PornoGrapic",font="arial 18 bold", bg="lightblue", fg="red", width=0,height=0)
+        self.labelklasifikasi.grid(row=6, column=4)
         
 #        self.label11 = tk.Label(self.MainFrame5, text="Bukan PornoGrapic",font="arial 12 bold", background="lightgray", width=0,height=0)
 #        self.label11.grid(row=6, column=5)
@@ -215,16 +216,27 @@ class Main(tk.Frame):
         self.MainFrame6.grid_propagate(0)
         
         
+        
     def proses(self):
         a = p.ImageProses()
         pathImgTrain = self.textboxdatatraining.get()
         
         folder_imgTrain = a.getImgTrain(pathImgTrain)                 
         kumpulan_gbr = a.loadImgTrain(folder_imgTrain)
-        hasilPraOlah = a.prapengolahan(folder_imgTrain)
-      
         
-        print(hasilPraOlah)
+        hasilPraOlah = []
+        for img in kumpulan_gbr:
+            hasil = a.prapengolahan(img)
+            hasilPraOlah.append(hasil)
+            
+        hasilcrop = []
+        for cgambar in hasilPraOlah:
+            crop = a.cropface(cgambar)
+            skin = a.skintrain(cgambar)
+            hasilcrop.append(crop)        
+        
+        
+        
           
 #==============================================================================
                             # BLOK TESTING
@@ -258,6 +270,20 @@ class Main(tk.Frame):
         imgSkin = ImageTk.PhotoImage(imgSkin)
         self.Citravhslout.configure(image=imgSkin)
         self.Citravhslout.image=imgSkin
+        self.labelsizepixel.config(text=a.gepixel())
+        message = ''
+        persent = a.getpersent()
+        if persent <= 20:
+            message = 'Bukan Porno Graphic'
+        elif persent <= 35:
+            message = 'Semi Porno Graphic'
+        elif persent > 36:
+            message = 'Porno Graphic'
+        
+        
+        self.labelpersent.config(text=str(persent) + " %")
+        self.labelklasifikasi.config(text= message)
+        
         
     def selchue(self):
         a = p.ImageProses()
@@ -311,14 +337,14 @@ class Main(tk.Frame):
         self.Citravhsv.image=imghsv
 #        cv2.imshow("hue",imgvle)
             
-        
     
-    def close_window(Main):
-        MsgBox = tk.messagebox.askquestion ("Keluar Aplikasi","Apakah Anda Yakin Keluar Aplikasi",icon = "warning")
-        if MsgBox == 'yes':
-            Main.destroy()
-        else:
-            tk.messagebox.showinfo('Return','Anda Kembali Pada Layar')
+    def close_window(self, event=None):
+        self.parent.destroy()
+    
+    def clearform(self):
+        self.textboxdatatraining.delete(0, END)
+        self.textboxdatatesting.delete(0, END)
+    
                 
 def main():
     root = tk.Tk()
