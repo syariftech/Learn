@@ -12,7 +12,10 @@ from scipy.spatial import ConvexHull
 
 
 class ImageProses():
-    
+
+    def __init__(self):
+        self.pixel = ''
+        self.persent = ''
 # membaca gambar dari path get
     def getImgTrain(self, pathFolderTrain):    
         pathImgTrain=[]
@@ -35,7 +38,8 @@ class ImageProses():
         gbrHist = cv2.equalizeHist(gbrGray)   
         return gbrHist
             
-    def cropface(self,images):
+    def cropface(self, hasilpraolah):
+        
         detector = dlib.get_frontal_face_detector()
         predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat") 
         gray = cv2.cvtColor(images, cv2.COLOR_BGR2GRAY)   
@@ -50,15 +54,17 @@ class ImageProses():
         rect = cv2.boundingRect(cropped_img)
         x,y,w,h = rect
         result = cropped_img[y:y+h, x:x+w].copy()
+                
         return result
     
-    def skintrain(self):
+    def skintrain(self, hasilpraolah):        
+                
         lower = np.array([0, 48, 80], dtype = "uint8")
         upper = np.array([20, 255, 255], dtype = "uint8")
         
         # Convert BGR to HSV and parse HSV
 #        frame = imutils.resize(img, width = 400)
-        converted = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+        converted = cv2.cvtColor(hasilpraolah, cv2.COLOR_BGR2HSV)
         skinMask = cv2.inRange(converted, lower, upper)
         
         # using an elliptical kernel
@@ -69,11 +75,12 @@ class ImageProses():
         #	# blur the mask to help remove noise, then apply the
         #	# mask to the frame
         skinMask = cv2.GaussianBlur(skinMask, (3, 3), 0)
-        skin = cv2.bitwise_and(frame, frame, mask = skinMask)
+        skin = cv2.bitwise_and(hasilpraolah, hasilpraolah, mask = skinMask)
+        hasil = cv2.cvtColor(skin, cv2.COLOR_BGR2RGB)
         
-        # show the skin in the image along with the mask
-        cv2.imshow("images", np.hstack([frame, skin]))
-        return result
+                
+#        cv2.imshow("images", np.hstack([frame, skin]))
+        return hasil
         
         
     def getLabelTrain(self):
@@ -84,17 +91,21 @@ class ImageProses():
         return label
     
     def buildTrainData(self):
-        pass
-#        imgTrain = []
-#        path = pathImgTrain()
-#        images = []
-#        for image in path:
-#            images.append(image)
-#        i = 0
-#        for faceimg in image:
-#            skin, 
-#        
-#        return imgTrain
+        imgTrain = []
+        path = self.getImgTrain()
+        images = self.loadImgTrain(path)
+        img = []
+        for image in images:
+            img.append(image)
+        i = 0
+        for gambar in img:
+            hasilpraolah = self.prapengolahan(gambar)
+            hasilskin = self.skintrain(hasilpraolah)        
+            hasilcrop = self.cropface(hasilpraolah)
+            nonzeroskin = cv2.countNonZero(hasilskin)
+            nonzerocrop = cv2.countNonZero(hasilcrop)
+            imgTrain.append([nonzeroskin, nonzerocrop])      
+        return imgTrain
     
     
     def loadImgPraTrain(self, hasil_pra):
@@ -104,10 +115,8 @@ class ImageProses():
             im = np.float32(image)/255.0
             imgTrain.append(im)
         return imgTrain 
+              
             
-            
-        
-    
 #==============================================================================
                             # BLOK TESTING
 #==============================================================================
@@ -152,17 +161,21 @@ class ImageProses():
     def pilihhsv(self,pathFolderTest):
         gbrhsv = cv2.imread(pathFolderTest)
         hsvimg = cv2.cvtColor(gbrhsv, cv2.COLOR_BGR2HSV)
-        
-        cv2.imshow("hsv",hsvimg)
+        out = cv2.cvtColor(hsvimg, cv2.COLOR_BGR2RGB)        
+#        cv2.imshow("hsv",out)
         return hsvimg
         
-    
-    def nilaihsv(self,pathFolderTest):
-        pass
-    
     def skintesting(self,pathFolderTest):
-        
+                
         img = cv2.imread(pathFolderTest)
+
+        a = img.shape[0]
+        b = img.shape[1]
+        
+        c = (a*b)
+        self.setpixel(c)
+        print(self.pixel)
+        
         lower = np.array([0, 48, 80], dtype = "uint8")
         upper = np.array([20, 255, 255], dtype = "uint8")
         
@@ -173,14 +186,30 @@ class ImageProses():
         kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (11, 11))
         skinMask = cv2.erode(skinMask, kernel, iterations = 2)
         skinMask = cv2.dilate(skinMask, kernel, iterations = 2)
-        # 
-        #	# blur the mask to help remove noise, then apply the
-        #	# mask to the frame
+
+        # blur the mask to help remove noise, then apply the
+        # mask to the frame
         skinMask = cv2.GaussianBlur(skinMask, (3, 3), 0)
         skin = cv2.bitwise_and(img, img, mask = skinMask)
         
-        # show the skin in the image along with the mask
-        cv2.imshow("images", np.hstack([skin]))
-        return skinMask
+        # deteksi skin tampil
+#        cv2.imshow("images", np.hstack([skin]))
+        hasil = cv2.cvtColor(skin, cv2.COLOR_BGR2RGB)
         
+        print (cv2.countNonZero(skinMask))
+        self.setpersent(cv2.countNonZero(skinMask), c)
         
+        return hasil
+        
+    def setpixel(self, pixel):
+        self.pixel = pixel
+        
+    def gepixel(self):
+        return self.pixel
+    
+    def setpersent(self, skin, pixel):
+        self.persent = (skin / pixel) * 100
+    
+        
+    def getpersent(self):
+        return round(self.persent)
