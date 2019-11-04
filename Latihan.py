@@ -5,6 +5,7 @@ from tkinter import filedialog
 from PIL import ImageTk, Image
 import proses as p
 import sys
+import numpy as np
 
 class Main(tk.Frame):
     def __init__(self,parent):
@@ -33,7 +34,7 @@ class Main(tk.Frame):
         self.MainFrame4.grid_propagate(0)
 #output
         self.MainFrame5 = tk.LabelFrame(self.parent, background="lightblue", text="Output", font="Arial 14", fg="black")
-        self.MainFrame5.grid(row=2, column=1, rowspan=3, columnspan=4, padx=0, sticky="NSEW")
+        self.MainFrame5.grid(row=2, column=1, rowspan=3, columnspan=3, padx=0, sticky="NSEW")
         self.MainFrame5.grid_propagate(0)
 #footer
         self.MainFrame6 = tk.LabelFrame(self.parent, height=50, width=1000, text="Made By : ", background="lightgray")
@@ -92,7 +93,7 @@ class Main(tk.Frame):
         
         self.radiobutton3 = tk.Radiobutton(self.MainFrame2, text="HSV Colour", variable=var, value=3, background="lightblue", command=self.selchsv)
         self.radiobutton3.grid(row=5, column=4, padx=10)       
-        
+#        
 #frame 3
 #proses prapengolahan
         
@@ -102,28 +103,28 @@ class Main(tk.Frame):
         self.noimage = self.noimage.resize((170, 227), Image.ANTIALIAS)
         self.noimage = ImageTk.PhotoImage(self.noimage)
         self.CitraAsli = tk.Label(self.MainFrame3, bg="blue", image=self.noimage)
-        self.CitraAsli.grid(row=2, column=0, padx=3, pady=3, sticky="NSEW")
+        self.CitraAsli.grid(row=2, column=0, padx=50, pady=3, sticky="NSEW")
         
         self.asli = tk.Label(self.MainFrame3, text="Image Selected", font="Georgia", background="lightblue")
-        self.asli.grid(row=0, column=0, padx=30, pady=0)
+        self.asli.grid(row=0, column=0, padx=0, pady=0)
                
-#label hasil image testing
+#label hasil image histogram
         self.asli ='noimage.png'
         self.noimageHist = Image.open(self.asli)
         self.noimageHist = self.noimageHist.resize((170, 227), Image.ANTIALIAS)
         self.noimageHist = ImageTk.PhotoImage(self.noimageHist)
         self.CitraHist = tk.Label( self.MainFrame3, bg="blue", image=self.noimageHist)
-        self.CitraHist.grid(row=2, column=1, padx=3, pady=3)
+        self.CitraHist.grid(row=2, column=1, padx=30, pady=3)
         
         self.lblhist = tk.Label(self.MainFrame3, text="Image Histogram EQ", font="Georgia", background="lightblue")
-        self.lblhist.grid(row=0, column=1, padx=30, pady=0)
+        self.lblhist.grid(row=0, column=1, padx=00, pady=0)
         
 #frame 4
         #button proses
         self.path = tk.Button(self.MainFrame4, command =self.proses,text="Calculate", font="arial 12 bold", width=8, height = 2, background="lightblue")
         self.path.grid(row=5, column=0, padx=5)
-        self.path = tk.Button(self.MainFrame4, command =self.testing,text="Testing", font="arial 12 bold", width=8, height = 2, background="lightblue")
-        self.path.grid(row=5, column=1, padx=5)
+#        self.path = tk.Button(self.MainFrame4, command =self.testing,text="Testing", font="arial 12 bold", width=8, height = 2, background="lightblue")
+#        self.path.grid(row=5, column=1, padx=5)
         self.path = tk.Button(self.MainFrame4, command =self.clearform,text="Refresh", font="arial 12 bold", width=8, height = 2, background="lightblue")
         self.path.grid(row=5, column=2, padx=5)
         self.path = tk.Button(self.MainFrame4, command = self.close_window,text="Exit", font="arial 12 bold", width=7, height = 2, background="lightblue", foreground="red")
@@ -132,48 +133,48 @@ class Main(tk.Frame):
 #frame 5
 #        output
 #        label hasil hue
-        self.asli ='noimage2.png'
-        self.huenoimage = Image.open(self.asli)
-        self.huenoimage = self.huenoimage.resize((120, 150), Image.ANTIALIAS)
-        self.huenoimage = ImageTk.PhotoImage(self.huenoimage)
-        self.Citrahue = tk.Label(self.MainFrame5, bg="blue", image=self.huenoimage)
-        self.Citrahue.grid(row=1, column=0, padx=5, pady=0,)
-        
-        self.lblhue = tk.Label(self.MainFrame5, text="Hue", font="Georgia", background="lightblue")
-        self.lblhue.grid(row=0, column=0)
-        
-        #label hasil saturation
-        self.asli ='noimage2.png'
-        self.stnoimage = Image.open(self.asli)
-        self.stnoimage = self.stnoimage.resize((120, 150), Image.ANTIALIAS)
-        self.stnoimage = ImageTk.PhotoImage(self.stnoimage)
-        self.Citrast = tk.Label(self.MainFrame5, bg="blue", image=self.stnoimage)
-        self.Citrast.grid(row=1, column=1, padx=5, pady=0,)
-        
-        self.lblst = tk.Label(self.MainFrame5, text="Saturation", font="Georgia", background="lightblue")
-        self.lblst.grid(row=0, column=1)
-        
-        #image hasil Value
-        self.asli ='noimage2.png'
-        self.vlunoimage = Image.open(self.asli)
-        self.vlunoimage = self.vlunoimage.resize((120, 150), Image.ANTIALIAS)
-        self.vlunoimage = ImageTk.PhotoImage(self.vlunoimage)
-        self.Citravlu = tk.Label(self.MainFrame5, bg="blue", image=self.vlunoimage)
-        self.Citravlu.grid(row=1, column=2, padx=5, pady=0,)
-        
-        self.lblvlu = tk.Label(self.MainFrame5, text="Value", font="Georgia", background="lightblue")
-        self.lblvlu.grid(row=0, column=2)
-        
-        #label HSV
-        self.asli ='noimage2.png'
-        self.hsvnoimage = Image.open(self.asli)
-        self.hsvnoimage = self.hsvnoimage.resize((120, 150), Image.ANTIALIAS)
-        self.hsvnoimage = ImageTk.PhotoImage(self.hsvnoimage)
-        self.Citravhsv = tk.Label(self.MainFrame5, bg="blue", image=self.hsvnoimage)
-        self.Citravhsv.grid(row=1, column=3, padx=5, pady=0,)
-        
-        self.lblhsv = tk.Label(self.MainFrame5, text="HSV Colour", font="Georgia", background="lightblue")
-        self.lblhsv.grid(row=0, column=3)
+#        self.asli ='noimage2.png'
+#        self.huenoimage = Image.open(self.asli)
+#        self.huenoimage = self.huenoimage.resize((120, 150), Image.ANTIALIAS)
+#        self.huenoimage = ImageTk.PhotoImage(self.huenoimage)
+#        self.Citrahue = tk.Label(self.MainFrame5, bg="blue", image=self.huenoimage)
+#        self.Citrahue.grid(row=1, column=1, padx=5, pady=0, sticky="N")
+#        
+#        self.lblhue = tk.Label(self.MainFrame5, text="Hue", font="Georgia", background="lightblue")
+#        self.lblhue.grid(row=0, column=1)
+#        
+#        #label hasil saturation
+#        self.asli ='noimage2.png'
+#        self.stnoimage = Image.open(self.asli)
+#        self.stnoimage = self.stnoimage.resize((120, 150), Image.ANTIALIAS)
+#        self.stnoimage = ImageTk.PhotoImage(self.stnoimage)
+#        self.Citrast = tk.Label(self.MainFrame5, bg="blue", image=self.stnoimage)
+#        self.Citrast.grid(row=1, column=2, padx=0, pady=0, sticky="N")
+#        
+#        self.lblst = tk.Label(self.MainFrame5, text="Saturation", font="Georgia", background="lightblue")
+#        self.lblst.grid(row=0, column=2)
+#        
+#        #image hasil Value
+#        self.asli ='noimage2.png'
+#        self.vlunoimage = Image.open(self.asli)
+#        self.vlunoimage = self.vlunoimage.resize((120, 150), Image.ANTIALIAS)
+#        self.vlunoimage = ImageTk.PhotoImage(self.vlunoimage)
+#        self.Citravlu = tk.Label(self.MainFrame5, bg="blue", image=self.vlunoimage)
+#        self.Citravlu.grid(row=1, column=3, padx=5, pady=0, sticky="N")
+#        
+#        self.lblvlu = tk.Label(self.MainFrame5, text="Value", font="Georgia", background="lightblue")
+#        self.lblvlu.grid(row=0, column=3)
+#        
+#        #label HSV
+#        self.asli ='noimage2.png'
+#        self.hsvnoimage = Image.open(self.asli)
+#        self.hsvnoimage = self.hsvnoimage.resize((120, 150), Image.ANTIALIAS)
+#        self.hsvnoimage = ImageTk.PhotoImage(self.hsvnoimage)
+#        self.Citravhsv = tk.Label(self.MainFrame5, bg="blue", image=self.hsvnoimage)
+#        self.Citravhsv.grid(row=1, column=4, padx=0, pady=0, sticky="N")
+#        
+#        self.lblhsv = tk.Label(self.MainFrame5, text="HSV Colour", font="Georgia", background="lightblue")
+#        self.lblhsv.grid(row=0, column=4)
 
         #label hasil output
         self.asli ='noimage3.png'
@@ -181,32 +182,29 @@ class Main(tk.Frame):
         self.hsloutnoimage = self.hsloutnoimage.resize((236, 270), Image.ANTIALIAS)
         self.hsloutnoimage = ImageTk.PhotoImage(self.hsloutnoimage)
         self.Citravhslout = tk.Label(self.MainFrame5, bg="blue", image=self.hsloutnoimage)
-        self.Citravhslout.grid(row=1, column=4, padx=10, pady=0,)
+        self.Citravhslout.grid(row=1, column=0, padx=0, pady=0, sticky="N")
         
         self.lblhslout = tk.Label(self.MainFrame5, text="Skin Detection", font="Georgia", background="lightblue")
-        self.lblhslout.grid(row=0, column=4)
+        self.lblhslout.grid(row=0, column=0)
                 
         #label keterangan hasil output
-        self.label11 = tk.Label(self.MainFrame5, text="Size (Pixel) :",font="arial 14 bold", background="lightblue", width=0,height=0)
-        self.label11.grid(row=6, column=0)
+#        self.label11 = tk.Label(self.MainFrame5, text="Size (Pixel) :",font="arial 14 bold", background="lightblue", width=0,height=0)
+#        self.label11.grid(row=6, column=0)
         
-        self.labelsizepixel = tk.Label(self.MainFrame5, text="0",font="arial 20 bold", background="lightblue", width=0,height=0)
-        self.labelsizepixel.grid(row=6, column=1)
+#        self.labelsizepixel = tk.Label(self.MainFrame5, text="0",font="arial 20 bold", background="lightblue", width=0,height=0)
+#        self.labelsizepixel.grid(row=6, column=1)
         
         #label keterangan hasil output
         self.label11 = tk.Label(self.MainFrame5, text="Skin Detec :",font="arial 14 bold", background="lightblue", width=0,height=0)
-        self.label11.grid(row=6, column=2)
+        self.label11.grid(row=6, column=1)
         
         self.labelpersent = tk.Label(self.MainFrame5, text="0 %",font="arial 20 bold", background="lightblue", width=0,height=0)
-        self.labelpersent.grid(row=6, column=3)
+        self.labelpersent.grid(row=6, column=2)
         
         #label keterangan hasil output
-        self.labelklasifikasi = tk.Label(self.MainFrame5, text="Bukan PornoGrapic",font="arial 18 bold", bg="lightblue", fg="red", width=0,height=0)
-        self.labelklasifikasi.grid(row=6, column=4)
-        
-#        self.label11 = tk.Label(self.MainFrame5, text="Bukan PornoGrapic",font="arial 12 bold", background="lightgray", width=0,height=0)
-#        self.label11.grid(row=6, column=5)
-        
+        self.labelklasifikasi = tk.Label(self.MainFrame5, text="Hasil Klasifikasi",font="arial 22 bold", bg="lightblue", fg="red", width=0,height=0)
+        self.labelklasifikasi.grid(row=6, column=0)
+               
         
         #frame 6
         #label footer
@@ -214,80 +212,52 @@ class Main(tk.Frame):
         self.label.grid(row=2, column=2, sticky="NSEW", padx=260, )
         self.label.config(background="lightgray")
         self.MainFrame6.grid_propagate(0)
-        
-        
+             
         
     def proses(self):
-        a = p.ImageProses()
-        pathImgTrain = self.textboxdatatraining.get()
+        a = p.ImageProses(self.textboxdatatraining.get())
         
-        folder_imgTrain = a.getImgTrain(pathImgTrain)                 
-        kumpulan_gbr = a.loadImgTrain(folder_imgTrain)
+        Train = a.buildTrainData()
+        Testing, imgHeist, Skin, persenNonFace = a.buildTestData(self.textboxdatatesting.get())
         
-        hasilPraOlah = []
-        for img in kumpulan_gbr:
-            hasil = a.prapengolahan(img)
-            hasilPraOlah.append(hasil)
-            
-        hasilcrop = []
-        for cgambar in hasilPraOlah:
-            crop = a.cropface(cgambar)
-            skin = a.skintrain(cgambar)
-            hasilcrop.append(crop)        
-        
-        
-        
-          
-#==============================================================================
-                            # BLOK TESTING
-#==============================================================================        
-        
-    def testing(self):
-        a = p.ImageProses()
-        pathImgTesting = self.textboxdatatesting.get()
-#        gambartesting = a.loadImgTest(pathImgTesting)
-        
+        Label = a.buildLabel()
+        hasil, persenSkin = a.ann(Train, Testing, Label)
+        print (hasil)
+        print (persenNonFace)
+        skinDetec = (persenNonFace) * 100
+               
 #tampil gambar
+        
         imgpilih = Image.open(self.textboxdatatesting.get())
         imgpilih = imgpilih.resize((170, 227),  Image.ANTIALIAS)
         imgpilih = ImageTk.PhotoImage(imgpilih)
         self.CitraAsli.configure(image=imgpilih)
         self.CitraAsli.image=imgpilih
         
-#tampil gambar Histogram                
-        gambarhist = a.ImgHeist(pathImgTesting)
-        
-        imgHist = Image.fromarray(gambarhist)
+
+        imgHist = Image.fromarray(imgHeist)
         imgHist = imgHist.resize((170, 227),  Image.ANTIALIAS)
         imgHist = ImageTk.PhotoImage(imgHist)
         self.CitraHist.configure(image=imgHist)
         self.CitraHist.image=imgHist
         
-        gambarskin = a.skintesting(pathImgTesting)
-
-        imgSkin = Image.fromarray(gambarskin)
+        imgSkin = Image.fromarray(Skin)
         imgSkin = imgSkin.resize((236, 270),  Image.ANTIALIAS)
         imgSkin = ImageTk.PhotoImage(imgSkin)
         self.Citravhslout.configure(image=imgSkin)
         self.Citravhslout.image=imgSkin
-        self.labelsizepixel.config(text=a.gepixel())
-        message = ''
-        persent = a.getpersent()
-        if persent <= 20:
-            message = 'Bukan Porno Graphic'
-        elif persent <= 35:
-            message = 'Semi Porno Graphic'
-        elif persent > 36:
-            message = 'Porno Graphic'
         
+        self.labelpersent.config(text=str(round(skinDetec,1)) + " %")
+        self.labelklasifikasi.config(text = hasil)
+      
         
-        self.labelpersent.config(text=str(persent) + " %")
-        self.labelklasifikasi.config(text= message)
-        
-        
+#==============================================================================
+                            # BLOK TESTING
+#==============================================================================        
+                
     def selchue(self):
         a = p.ImageProses()
-        pathImgTesting = self.textboxdatatesting.get()
+        pathImgTesting = (self.textboxdatatesting.get())
        
         gambarhue = a.pilihhue(pathImgTesting)
         
